@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, RefObject } from 'react';
 import styled from '../../../utils/styles/styled';
 import useUpperButtons, {
   useUpperButtonsType,
-} from '../../../hooks/useUpperButtons';
+} from '../../../hooks/map/useUpperButtons';
 
-import Button from '../Button/Button';
+import Button from './Button';
 import FullScreenIcon from '../../Icon/FullScreen';
 import SmallScreenIcon from '../../Icon/SmallScreen';
 import SearchInput from '../SearchInput/SearchInput';
 
 interface UpperButtonsProps {
-  fullscreenHandler: () => void;
-  smallscreenHandler: () => void;
+  mapRef: RefObject<HTMLDivElement>;
+  historyBtnHandler: () => void;
 }
 
 const UpperButtonsWrapper = styled.div`
@@ -31,28 +31,30 @@ const ButtonsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  z-index: 10;
 `;
 
-function UpperButtonsPresenter({
-  fullscreenHandler,
-  smallscreenHandler,
+function UpperButtons({
+  mapRef,
+  historyBtnHandler,
 }: UpperButtonsProps): ReactElement {
   const {
     isFullscreen,
-    compareButtonClickHandler,
     fullScreenButtonClickHandler,
     smallScreenButtonClickHandler,
-  }: useUpperButtonsType = useUpperButtons({
-    fullscreenHandler,
-    smallscreenHandler,
-  });
+  }: useUpperButtonsType = useUpperButtons({ mapRef });
 
   return (
     <UpperButtonsWrapper>
       <SearchInput />
       <ButtonsWrapper>
-        <Button width="40px" height="40px" onClick={compareButtonClickHandler}>
-          비교하기
+        <Button
+          fontSize="12px"
+          width="60px"
+          height="40px"
+          onClick={historyBtnHandler}
+        >
+          History
         </Button>
         <Button
           width="40px"
@@ -70,4 +72,4 @@ function UpperButtonsPresenter({
   );
 }
 
-export default UpperButtonsPresenter;
+export default UpperButtons;

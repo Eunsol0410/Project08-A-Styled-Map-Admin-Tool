@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from '../../../utils/styles/styled';
-import Button from '../Button/Button';
+
+import Button from './Button';
 import PlusIcon from '../../Icon/AddIcon';
 import MinusIcon from '../../Icon/RemoveIcon';
+import useLowerButtons, {
+  LowerButtonsHookType,
+} from '../../../hooks/map/useLowerButtons';
 
 const LowerButtonsWrapper = styled.div`
   display: flex;
@@ -15,25 +19,19 @@ const LowerButtonsWrapper = styled.div`
   z-index: 10;
 `;
 
-interface LowerButtonPresenterProps {
-  plusZoom: () => void;
-  minusZoom: () => void;
-}
+function LowerButtons(): React.ReactElement {
+  const { plusZoom, minusZoom }: LowerButtonsHookType = useLowerButtons();
 
-function LowerButtonsPresenter({
-  plusZoom,
-  minusZoom,
-}: LowerButtonPresenterProps): React.ReactElement {
   return (
     <LowerButtonsWrapper>
-      <Button width="30x" height="30px" onClick={plusZoom}>
+      <Button width="29px" height="29px" onClick={plusZoom}>
         <PlusIcon />
       </Button>
-      <Button width="31px" height="31px" onClick={minusZoom}>
+      <Button width="29px" height="29px" onClick={minusZoom}>
         <MinusIcon />
       </Button>
     </LowerButtonsWrapper>
   );
 }
 
-export default LowerButtonsPresenter;
+export default LowerButtons;

@@ -1,9 +1,17 @@
 import React from 'react';
 import styled from '../../../utils/styles/styled';
+import useStyleType, {
+  UseStyleHookType,
+} from '../../../hooks/sidebar/useStyleType';
+
+/**
+ * FIXME: custom color picker 테스트 중
+ */
 import ColorStyle from './ColorStyle';
-import WeightStyle from './WeightStyle';
+// import ColorStyle from './ColorStyle2';
 import SaturationStyle from './SaturationStyle';
-import LightnessStyleWrapper from './LightnessStyleWrapper';
+import LightnessStyle from './LightnessStyle';
+import WeightStyle from './WeightStyle';
 import VisibilityStyle from './VisibilityStyle';
 
 const StylerWrapper = styled.div`
@@ -13,6 +21,7 @@ const StylerWrapper = styled.div`
   flex-direction: column;
   border-left: 1px solid ${(props) => props.theme.LIGHTGREY};
   padding: 20px 30px;
+  overflow-y: scroll;
 `;
 
 const StylerTitle = styled.h2`
@@ -29,25 +38,37 @@ const Hr = styled.hr`
   color: ${(props) => props.theme.GREY};
 `;
 
-interface StylerProps {
-  detailName: string;
-}
+function Styler(): React.ReactElement {
+  const {
+    styleElement: { visibility, color, weight, saturation, lightness },
+    onStyleChange,
+    element,
+  }: UseStyleHookType = useStyleType();
 
-function Styler({ detailName }: StylerProps): React.ReactElement {
-  if (!detailName) {
+  if (!element) {
     return <></>;
   }
 
   return (
     <StylerWrapper>
       <StylerTitle>스타일</StylerTitle>
-      <VisibilityStyle />
+      <VisibilityStyle visibility={visibility} onStyleChange={onStyleChange} />
       <Hr />
-      <ColorStyle />
+      <ColorStyle color={color} onStyleChange={onStyleChange} />
+
+      {/* 
+        * FIXME: custom color picker 테스트 중
+        
+      <ColorStyle
+        color2={color}
+        saturation={saturation}
+        lightness={lightness}
+        onStyleChange={onStyleChange}
+      /> */}
       <Hr />
-      <WeightStyle />
-      <SaturationStyle />
-      <LightnessStyleWrapper />
+      <WeightStyle weight={weight} onStyleChange={onStyleChange} />
+      <SaturationStyle saturation={saturation} onStyleChange={onStyleChange} />
+      <LightnessStyle lightness={lightness} onStyleChange={onStyleChange} />
     </StylerWrapper>
   );
 }

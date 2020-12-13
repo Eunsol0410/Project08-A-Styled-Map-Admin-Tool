@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from '../../utils/styles/styled';
-import useSidebar, { ToggleStatusHook } from '../../hooks/useToggleStatus';
+import useSidebar, {
+  ToggleStatusHook,
+} from '../../hooks/sidebar/useToggleStatus';
 
 import SidebarHeader from './SidebarHeader/SidebarHeader';
 import SidebarContentFewer from './SidebarContentFewer/SidebarContent';
@@ -13,8 +15,9 @@ const SidebarWrapper = styled.div`
   justify-content: space-between;
   flex: 0 0 370px;
   height: 100vh;
-  z-index: 10;
+  z-index: 30;
   background-color: white;
+  font-family: 'Noto Sans KR', sans-serif;
 `;
 
 function SidebarPresenter(): React.ReactElement {
@@ -29,4 +32,4 @@ function SidebarPresenter(): React.ReactElement {
   );
 }
 
-export default SidebarPresenter;
+export default memo(SidebarPresenter);

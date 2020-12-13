@@ -2,13 +2,16 @@ import React from 'react';
 import styled from '../../../utils/styles/styled';
 import useSidebarHeader, {
   useSidebarHeaderType,
-} from '../../../hooks/useSidebarHeader';
+} from '../../../hooks/sidebar/useSidebarHeader';
+import useUndoRedo from '../../../hooks/sidebar/useUndoRedo';
 
 import UndoIcon from '../../Icon/UndoIcon';
+import RedoIcon from '../../Icon/RedoIcon';
 import MoreVertIcon from '../../Icon/MoreVertIcon';
 import SidebarDropdown from './SidebarDropdown';
 
 const HeaderWrapper = styled.header`
+  flex: 0 0 auto;
   height: 5.5rem;
   width: 100%;
   display: flex;
@@ -43,6 +46,16 @@ const UndoBtn = styled(UndoIcon)`
   }
 `;
 
+const RedoBtn = styled(RedoIcon)`
+  margin: 0 0 0 10px;
+  fill: ${(props) => props.theme.WHITE};
+  cursor: pointer;
+
+  &:hover {
+    fill: ${(props) => props.theme.DARKGREY};
+  }
+`;
+
 const DropdownBtn = styled(MoreVertIcon)`
   margin-left: 10px;
   fill: ${(props) => props.theme.WHITE};
@@ -64,12 +77,14 @@ function SidebarHeader({
     isOpened,
     dropdownToggleHandler,
   }: useSidebarHeaderType = useSidebarHeader();
+  const { undoHandler, redoHandler } = useUndoRedo();
 
   return (
     <HeaderWrapper>
       <HeaderTitle>{isAdvanced ? '고급 설정' : '스타일 맵 만들기'}</HeaderTitle>
       <Btns>
-        <UndoBtn />
+        <UndoBtn onClick={undoHandler} />
+        <RedoBtn onClick={redoHandler} />
         <DropdownBtn onClick={dropdownToggleHandler} />
         <SidebarDropdown
           isOpened={isOpened}
