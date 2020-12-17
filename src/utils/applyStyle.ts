@@ -2,6 +2,7 @@
 /* eslint-disable no-case-declarations */
 import mapboxgl from 'mapbox-gl';
 import { hexToHSL } from './colorFormat';
+import { WeightTemplateProperty } from './map-styling/macgyver/weightTemplate';
 
 export enum ColorType {
   fill = 'fill-color',
@@ -24,7 +25,7 @@ interface ApplyProps {
   type?: StyleTypes;
   saturation?: number;
   lightness?: number;
-  weight?: number;
+  weight?: number | WeightTemplateProperty[];
   visibility?: string;
 }
 
@@ -41,23 +42,23 @@ export function applyColor({
   layerNames,
   color,
   type,
-  saturation,
-  lightness,
-}: ApplyProps): void {
+}: // saturation,
+// lightness,
+ApplyProps): void {
   if (!type || !color) return;
   const { h, s, l } = hexToHSL(color);
 
-  if (saturation) {
-    return layerNames.forEach((layerName) => {
-      map.setPaintProperty(layerName, type, `hsl(${h}, ${saturation}%, ${l}%)`);
-    });
-  }
+  // if (saturation) {
+  //   return layerNames.forEach((layerName) => {
+  //     map.setPaintProperty(layerName, type, `hsl(${h}, ${saturation}%, ${l}%)`);
+  //   });
+  // }
 
-  if (lightness) {
-    return layerNames.forEach((layerName) => {
-      map.setPaintProperty(layerName, type, `hsl(${h}, ${s}%, ${lightness}%)`);
-    });
-  }
+  // if (lightness) {
+  //   return layerNames.forEach((layerName) => {
+  //     map.setPaintProperty(layerName, type, `hsl(${h}, ${s}%, ${lightness}%)`);
+  //   });
+  // }
 
   return layerNames.forEach((layerName) => {
     map.setPaintProperty(layerName, type, `hsl(${h}, ${s}%, ${l}%)`);
@@ -83,7 +84,6 @@ export function applyWeight({
   weight = 1,
 }: ApplyProps): void {
   if (!type) return;
-
   const weightValue = weight === 0 ? 0 : weight;
   layerNames.forEach((layerName) => {
     map.setPaintProperty(layerName, type, weightValue);

@@ -2,6 +2,8 @@ import { RefObject } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import dotenv from 'dotenv';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import initLayers from '../../utils/rendering-data/layers/init';
 
@@ -17,7 +19,7 @@ interface InitializeMapProps {
   initializeMap: (map: mapboxgl.Map) => void;
 }
 
-function initializeMap({
+function initializingMap({
   mapRef,
   initializeMap,
 }: InitializeMapProps): mapboxgl.Map {
@@ -26,6 +28,12 @@ function initializeMap({
     style: initLayers as mapboxgl.Style,
     center: [LNG, LAT],
     zoom: ZOOM,
+  });
+
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    placeholder: '검색할 장소를 입력하세요',
+    mapboxgl,
   });
 
   map.addControl(
@@ -40,9 +48,10 @@ function initializeMap({
 
   map.on('load', () => {
     initializeMap(map);
+    document.getElementById('search-bar')?.appendChild(geocoder.onAdd(map));
   });
 
   return map;
 }
 
-export default initializeMap;
+export default initializingMap;

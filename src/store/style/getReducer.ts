@@ -9,9 +9,17 @@ import {
   objType,
   ElementNameType,
   SubElementType,
+  StyleType,
 } from '../common/type';
 import { getDefaultFeature, getDefaultStyle } from './properties';
-import { INIT, SET, SET_WHOLE, REPLACE_WHOLE, INIT_COLORS } from './action';
+import {
+  INIT,
+  SET,
+  SET_WHOLE,
+  REPLACE_FEATURE,
+  REPLACE_WHOLE,
+  INIT_COLORS,
+} from './action';
 import { checkStyleIsChanged, checkFeatureIsChanged } from './compareStyle';
 import { combineElement } from './manageCategories';
 
@@ -83,8 +91,11 @@ export default function getReducer(IDX: number): ReducerType {
 
         return newState;
       }
-
+      case REPLACE_FEATURE:
       case SET_WHOLE: {
+        if (action.type === REPLACE_FEATURE && !action.payload[featureName])
+          return state;
+
         const inputStyle = action.payload[featureName];
         const updateStyle = JSON.parse(JSON.stringify(initialState));
 
@@ -118,6 +129,12 @@ export default function getReducer(IDX: number): ReducerType {
             subFeature,
           });
 
+          if (element === ElementNameType.labelIcon) {
+            const style = newState[subFeature][element] as StyleType;
+            style.color = defaultStyle.color;
+            style.isChanged = checkStyleIsChanged({ defaultStyle, style });
+            return;
+          }
           const style = (newState[subFeature][element] as SubElementType)[
             subElement
           ];

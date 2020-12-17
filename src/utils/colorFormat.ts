@@ -6,6 +6,13 @@ interface HexToHSLType {
 }
 
 export function hexToHSL(color: string): HexToHSLType {
+  if (color === 'transparent') {
+    return {
+      h: 0,
+      s: 0,
+      l: 0,
+    };
+  }
   let r = parseInt(color.slice(1, 3), 16);
   let g = parseInt(color.slice(3, 5), 16);
   let b = parseInt(color.slice(5), 16);
@@ -42,7 +49,7 @@ export function hexToHSL(color: string): HexToHSLType {
 }
 
 export function hslToHEX(color: string): string {
-  if (color === 'transparent') return 'transparent';
+  if (color === 'transparent' || !color) return 'transparent';
   const hsl = color.match(/(\d*\.?\d+)/g)?.map((c) => Number(c)) as number[];
 
   const h: number = hsl[0];

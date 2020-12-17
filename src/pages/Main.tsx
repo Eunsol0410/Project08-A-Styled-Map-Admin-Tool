@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '../utils/styles/styled';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Map from '../components/Map/Map';
+import { URLPathNameType } from '../store/common/type';
 
 interface MainProps {
   location: {
@@ -19,12 +20,13 @@ const MainWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  min-width: 500px;
 `;
 
 function Main({ location: { pathname } }: MainProps): React.ReactElement {
   return (
     <MainWrapper>
-      {pathname === '/map' && <Sidebar />}
+      {pathname === URLPathNameType.map && <Sidebar />}
       <Map pathname={pathname} />
     </MainWrapper>
   );
