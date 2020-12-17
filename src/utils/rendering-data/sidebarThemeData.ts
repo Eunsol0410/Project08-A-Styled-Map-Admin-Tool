@@ -25,15 +25,9 @@ const data = [
     theme: dark,
   },
   {
-<<<<<<< HEAD
-    src:
-      'https://i.pinimg.com/originals/8f/6d/97/8f6d971f3d086edaf6cee773991abb27.jpg',
-    name: '크리스마스',
-=======
     src: '/images/christamas.png',
     name: '크리스마스',
     theme: christmas,
->>>>>>> 33f0ac4ccbcb873f16a7c92d8122d468dcbf4db2
   },
   {
     src: '/images/blueprint.png',
